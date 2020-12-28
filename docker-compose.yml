@@ -1,0 +1,52 @@
+version: "3"
+services:
+  nginx:
+    build: ./nginx
+    links:
+      - server-first
+      - server-second
+      - server-third
+      - server-fourth
+    ports:
+      - "3000:80"
+
+  server-first:
+    build: ./server
+    links:
+      - redis
+    expose:
+      - "3000"
+    environment:
+      - NAME=first
+
+  server-second:
+    build: ./server
+    links:
+      - redis
+    expose:
+      - "3000"
+    environment:
+      - NAME=second
+
+  server-third:
+    build: ./server
+    links:
+      - redis
+    expose:
+      - "3000"
+    environment:
+      - NAME=third
+
+  server-fourth:
+    build: ./server
+    links:
+      - redis
+    expose:
+      - "3000"
+    environment:
+      - NAME=fourth
+
+  redis:
+    image: redis:alpine
+    expose:
+      - "6379"
